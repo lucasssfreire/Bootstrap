@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="row mt-1">
-            <p> Transforme sua carreira com os cursos a distancia do Senac.</p>
+            <p> Transforme sua carreira com os cursos a distância do Senac.</p>
         </div>
 
         {% block menu %}
@@ -46,8 +46,16 @@
         </nav>
         {% endblock %}
 
-    </div>  
+        {% block banner %}
+        <div class="col-12 mt-3">
+            <img src="{{ url_for('static', filename='image/banner_index.png')}}">
+        </div>
+        {% endblock %}
 
+        {% block content %}
+        
+        {% endblock %}
+</div>
    
 
 </body>

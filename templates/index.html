@@ -1,1 +1,39 @@
 {% extends 'base.html' %}
+
+{% block content %}
+<div class="col -12 mt-2">
+    <div class="row">
+        <div class="px-4 py-5">
+            <h2 class="pb-2 border-sbottom">Cursos em Destaque</h2>
+            <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+                <div class="col">
+                    <div class="mb-3">
+                        <img src="{{ url_for('static', filename='image/logica.png')}}"height="100" width="100">
+                    </div>
+                    <h3 class="fs-2">Lógica de Programação</h3>
+                    <p>Lógica de programação refere-se à capacidade de pensar e resolver problemas de forma estruturada, utilizando uma sequência lógica de passos para alcançar um objetivo. É a base fundamental para a programação de computadores e envolve o desenvolvimento de algoritmos, ou seja, instruções passo a passo que levam à solução de um problema.</p>
+                    <a href="#" class="icon-link">Saiba mais</a>
+                </div>
+                    
+                <div class="col">
+                    <div class="mb-3">
+                        <img src="{{ url_for('static', filename='image/banco_de_dados.png')}}"height="100" width="100">
+                    </div>
+                        <h3 class="fs-2">Banco de Dados</h3>
+                        <p> Um banco de dados é um sistema organizado e estruturado para armazenar e gerenciar grandes quantidades de informações de forma persistente. Ele é projetado para coletar, armazenar, recuperar, gerenciar e manipular dados de forma eficiente e segura.</p>
+                        <a href="#" class="icon-link">Saiba mais</a>
+                </div>
+                
+            <div class="col">
+                    <div class="mb-3">
+                        <img src="{{ url_for('static', filename='image/ux.png')}}"height="100" width="160">
+                    </div>
+                    <h3 class="fs-2">UX/UI</h3>
+                    <p>UX (User Experience) e UI (User Interface) são termos comumente usados no design de produtos digitais, especialmente em relação a aplicativos e websites. Embora sejam conceitos distintos, eles estão intimamente relacionados e trabalham juntos para fornecer uma experiência satisfatória para o usuário.</p>
+                    <a href="#" class="icon-link">Saiba mais</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
