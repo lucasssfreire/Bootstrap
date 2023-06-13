@@ -1,5 +1,5 @@
 import mysql.connector
-from flask import Flask, render_template, request, url_for, flash, redirect
+from flask import Flask, render_template, request, url_for, flash, redirect, session
 from forms import formLogin, formNovoUsuario
 from hashlib import sha256
 
@@ -41,25 +41,40 @@ def login():
 
     if form_login.validate_on_submit() and 'submitLogin' in request.form:
 
-        flash(f'Login realizado com sucesso: {form_login.email.data}', 'alert-primary')
-        return redirect(url_for('index'))
+        cursor = mydb.cursor()
+
+        email = form_login.email.data
+        senha = form_login.senha.data
+        hashSenha = sha256(senha.encode())
+
+        comando = f'Select * from aluno where email = "{email}"'
+        cursor.execute(comando)
+        result = cursor.fetchall()
+
+        if hashSenha.hexdigest() == result[0][5]:
+            session['nome_usuario'] = result[0][1]
+            flash (f'Login realizdado com sucesso: {form_login.email.data}','alert-primary')
+            return redirect(url_for('index'))
+        else:
+            flash(f'Usuario ou senha incorreto: {form_login.email.data}', 'alert-primary')
+            return redirect(url_for('index'))
 
     if form_novo_usuario.validate_on_submit() and 'submit' in request.form:
 
-        cursor = mydb.cursor()
+            cursor = mydb.cursor()
 
-        nome = form_novo_usuario.nome.data
-        telefone = form_novo_usuario.celular.data
-        email = form_novo_usuario.email.data
-        cpf = form_novo_usuario.cpf.data
-        senha = form_novo_usuario.senha.data
-        hashSenha = sha256(senha.encode())
-        query = f'INSERT INTO alunos (nome,email,celular,documento,senha) VALUES ("{nome}","{email}","{telefone}","{cpf}","{hashSenha.hexdigest()}")'
-        cursor.execute(query)
-        mydb.commit()
+            nome = form_novo_usuario.nome.data
+            telefone = form_novo_usuario.celular.data
+            email = form_novo_usuario.email.data
+            cpf = form_novo_usuario.cpf.data
+            senha = form_novo_usuario.senha.data
+            hashSenha = sha256(senha.encode())
+            query = f'INSERT INTO aluno (nome,email,celular,documento,senha) VALUES ("{nome}","{email}","{telefone}","{cpf}","{hashSenha.hexdigest()}")'
+            cursor.execute(query)
+            mydb.commit()
 
-        flash(f'Cadastro realizadocom sucesso: {form_novo_usuario.nome.data}' , 'alert-success')
-        return redirect(url_for('index'))
+            flash(f'Cadastro realizadocom sucesso: {form_novo_usuario.nome.data}' , 'alert-success')
+            return redirect(url_for('index'))
 
     return render_template('login.html',titulo=titulo,descricao=descricao,form_login=form_login,form_novo_usuario=form_novo_usuario)
 
