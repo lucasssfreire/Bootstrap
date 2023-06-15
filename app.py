@@ -1,12 +1,17 @@
 import mysql.connector
-from flask import Flask, render_template, request, url_for, flash, redirect, session
-from forms import formLogin, formNovoUsuario
+from flask import Flask, render_template, request, url_for, flash, redirect, session, send_from_directory
+from forms import formLogin, formNovoUsuario, formCadastroProduto
 from hashlib import sha256
+from flask_uploads import UploadSet, IMAGES, configure_uploads
 
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = '997181c5137d5ee684f482e6274956e4861e3460653aa4c5317d7065bef83c7c'
+app.config['UPLOADED_PHOTOS_DEST'] = 'uploads'
+
+upload = UploadSet('photos', IMAGES)
+configure_uploads(app, upload)
 
 mydb = mysql.connector.connect(
     host = 'localhost',
@@ -26,6 +31,7 @@ def ead():
 @app.route("/cursos")
 def cursos():
     return render_template('cursos.html')
+
 
 @app.route("/contato")
 def contato():  
@@ -77,6 +83,30 @@ def login():
             return redirect(url_for('index'))
 
     return render_template('login.html',titulo=titulo,descricao=descricao,form_login=form_login,form_novo_usuario=form_novo_usuario)
+
+@app.route('/uploads/<filename>')
+def get_file(filename):
+    return send_from_directory(app.config['UPLOADED_PHOTOS_DEST'], filename)
+
+@app.route('/cadastro_curso', methods=['GET','POST'])
+def cadastrocurso():
+    if session.get("nome_usuario"):
+        titulo = 'Cadastro de Curso'
+
+        form_cadastro_produto = formCadastroProduto()
+        file_url = ''
+
+        if form_cadastro_produto.validate_on_submit():
+            filename = upload.save(form_cadastro_produto.imagem.data)
+            file_url = filename
+
+        return render_template('cadastro_curso.html',titulo=titulo,form_cadastro_produto=formCadastroProduto, file_url=file_url)
+
+    return redirect('login')
+
+@app.route('/logout')
+def logout():
+    return render_template('login')
 
 if __name__=='__main__':
     app.run(debug=True)

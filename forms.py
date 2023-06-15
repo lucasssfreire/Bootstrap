@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, FileField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 
 class formLogin(FlaskForm):
@@ -17,3 +18,9 @@ class formNovoUsuario(FlaskForm):
     senha = PasswordField('Senha', validators=[DataRequired(),Length(6, 12)])
     senhaConfirmacao = PasswordField('Confirmaçao de Senha',validators=[DataRequired(),EqualTo('senha')])
     submit = SubmitField('Criar Conta')
+
+class formCadastroProduto(FlaskForm):
+    nome = StringField('nome', validators=[DataRequired()])
+    descricao = StringField('descricao', validators=[DataRequired()])
+    imagem = FileField('imagem', validators=[FileRequired('informa uma imagem')])
+    submit = SubmitField('Cadastro Produto')
