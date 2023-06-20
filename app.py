@@ -77,7 +77,7 @@ def login():
             senha = form_novo_usuario.senha.data
             hashSenha = sha256(senha.encode())
             
-            query = f"INSERT INTO aluno (nome,email,celular,documento,senha) VALUES ('{nome}','{email}','{telefone}','{documento}','{hashSenha.hexdigest()}')"
+            query = f"INSERT INTO aluno (nome,email,celular,documento,senha) VALUES ('{nome}','{email}','{telefone}','{documento}','{hashSenha.hexdigest()}')'"
             cursor.execute(query)
             mydb.commit()
 
