@@ -73,11 +73,11 @@ def login():
             nome = form_novo_usuario.nome.data
             telefone = form_novo_usuario.celular.data
             email = form_novo_usuario.email.data
-            cpf = form_novo_usuario.cpf.data
+            documento = form_novo_usuario.cpf.data
             senha = form_novo_usuario.senha.data
             hashSenha = sha256(senha.encode())
             
-            query = f'INSERT INTO aluno (nome,email,celular,documento,senha) VALUES ("{nome}","{email}","{telefone}","{cpf}","{hashSenha.hexdigest()}")'
+            query = f"INSERT INTO aluno (nome,email,celular,documento,senha) VALUES ('{nome}','{email}','{telefone}','{documento}','{hashSenha.hexdigest()}')"
             cursor.execute(query)
             mydb.commit()
 
@@ -104,7 +104,7 @@ def cadastrocurso():
 
         return render_template('cadastro_curso.html',titulo=titulo,form_cadastro_produto=formCadastroProduto, file_url=file_url)
 
-    return redirect('login')
+    return redirect(url_for('login'))
 
 @app.route('/logout')
 def logout():
