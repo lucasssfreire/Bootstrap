@@ -102,7 +102,7 @@ def cadastrocurso():
 
         return render_template('cadastro_curso.html',titulo=titulo,form_cadastro_produto=formCadastroProduto, file_url=file_url)
 
-    return redirect('login')
+    return redirect('login.html')
 
 @app.route('/logout')
 def logout():
