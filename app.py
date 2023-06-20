@@ -106,7 +106,7 @@ def cadastrocurso():
 
 @app.route('/logout')
 def logout():
-    return render_template('login')
+    return render_template('login.html')
 
 if __name__=='__main__':
     app.run(debug=True)
