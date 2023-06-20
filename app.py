@@ -14,9 +14,10 @@ upload = UploadSet('photos', IMAGES)
 configure_uploads(app, upload)
 
 mydb = mysql.connector.connect(
-    host = 'localhost',
-    user = 'root',
-    password = 'P@$$w0rd',
+    host = 'db-mysql-nyc1-97096-do-user-14262463-0.b.db.ondigitalocean.com',
+    port = '25060',
+    user = 'doadmin',
+    password = 'AVNS_8umiTzBdZHI7b5re2wz',
     database = 'ead_senac',
 )
 
@@ -53,7 +54,7 @@ def login():
         senha = form_login.senha.data
         hashSenha = sha256(senha.encode())
 
-        comando = f'Select * from aluno where email = "{email}"'
+        comando = f"Select * from aluno where email = '{email}'"
         cursor.execute(comando)
         result = cursor.fetchall()
 
@@ -63,9 +64,9 @@ def login():
             return redirect(url_for('index'))
         else:
             flash(f'Usuario ou senha incorreto: {form_login.email.data}', 'alert-primary')
-            return redirect(url_for('index'))
+            return redirect(url_for('login'))
 
-    if form_novo_usuario.validate_on_submit() and 'submit' in request.form:
+    if form_novo_usuario.validate_on_submit() and 'submitCadastro' in request.form:
 
             cursor = mydb.cursor()
 
@@ -75,6 +76,7 @@ def login():
             cpf = form_novo_usuario.cpf.data
             senha = form_novo_usuario.senha.data
             hashSenha = sha256(senha.encode())
+            
             query = f'INSERT INTO aluno (nome,email,celular,documento,senha) VALUES ("{nome}","{email}","{telefone}","{cpf}","{hashSenha.hexdigest()}")'
             cursor.execute(query)
             mydb.commit()
@@ -102,11 +104,12 @@ def cadastrocurso():
 
         return render_template('cadastro_curso.html',titulo=titulo,form_cadastro_produto=formCadastroProduto, file_url=file_url)
 
-    return redirect('login.html')
+    return redirect('login')
 
 @app.route('/logout')
 def logout():
-    return render_template('login.html')
+    session.clear()
+    return redirect(url_for('login'))
 
 if __name__=='__main__':
     app.run(debug=True)
