@@ -1,1 +1,1 @@
-Projeto bootstrap desenvolvido no curso de python SENAC
+Bootstrap no curso de python SENAC
