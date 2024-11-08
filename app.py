@@ -17,7 +17,7 @@ mydb = mysql.connector.connect(
     host = '---',
     port = '---',
     user = '---',
-    password = '---z',
+    password = '---',
     database = 'ead_senac',
 )
 
