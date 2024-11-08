@@ -14,10 +14,10 @@ upload = UploadSet('photos', IMAGES)
 configure_uploads(app, upload)
 
 mydb = mysql.connector.connect(
-    host = 'db-mysql-nyc1-97096-do-user-14262463-0.b.db.ondigitalocean.com',
-    port = '25060',
-    user = 'doadmin',
-    password = 'AVNS_8umiTzBdZHI7b5re2wz',
+    host = '---',
+    port = '---',
+    user = '---',
+    password = '---z',
     database = 'ead_senac',
 )
 
